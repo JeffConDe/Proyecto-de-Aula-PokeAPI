@@ -3,31 +3,35 @@
 API REST construida con Node.js, Express y PostgreSQL que gestiona un CRUD completo sobre los 151 Pokémon de la primera generación.
 
 ## Tecnologías Utilizadas
-- **Node.js** con **Express** (Servidor y API REST)
+- **Node.js** con **Express** (Servidor, API REST y archivos est{aticos)
 - **PostgreSQL / pgAdmin** (Base de datos relacional)
-- **Axios** (Consumo de la PokéAPI pública para la carga inicial)
-
+- **Axios/CORS** (Consumo de la PokéAPI pública para la carga inicial)
+- **HTML5/ CSS3 / JavaScript** (Frontend interactivo con tarjetas y buscador
+)
 ## Instrucciones de Ejecución
 
 1. Clonar el repositorio:
-   
-   git clone [https://github.com/JeffConDe/Proyecto-de-Aula-PokeAPI.git](https://github.com/JeffConDe/Proyecto-de-Aula-PokeAPI.git)
+
+   git clone https://github.com/JeffConDe/Proyecto-de-Aula-PokeAPI.git
 
 2. Instalar las dependencias del proyecto:
 
-npm install
+   npm install
 
-3. Configurar la conexión a tu base de datos en el archivo db.js (usuario, contraseña y puerto).
+3. Configurar la conexión a tu base de datos en el archivo db.js   (usuario, contraseña y puerto de PostgreSQL).
 
-4. Ejecutar el script para poblar la base de datos con los 151 Pokémon (solo la primera vez):
+4. Ejecutar el script para poblar la base de datos con los 151 Pokémon   (solo la primera vez):
 
-node seed.js
+   node seed.js
 
 5. Iniciar el servidor local:
 
-node index.js
+   node index.js
 
-6. Endpoints Principales
+6. Abrir la aplicación:
+   Entra a tu navegador y dirígete a http://localhost:3000/ para ver la interfaz visual y el buscador de Pokémon en acción.
+
+7. Endpoints Principales
 
 GET /pokemons - Retorna la lista completa de los Pokémon en formato JSON.
 
