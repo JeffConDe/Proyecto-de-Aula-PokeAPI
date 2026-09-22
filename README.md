@@ -17,7 +17,6 @@ API REST construida con Node.js, Express y PostgreSQL que gestiona un CRUD compl
 
 npm install
 
-
 3. Configurar la conexión a tu base de datos en el archivo db.js (usuario, contraseña y puerto).
 
 4. Ejecutar el script para poblar la base de datos con los 151 Pokémon (solo la primera vez):

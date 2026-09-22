@@ -1,8 +1,12 @@
 const express = require('express');
+const path = require('path');
+const cors = require('cors');
 const pool = require('./db');
 
 const app = express();
+app.use(cors());
 app.use(express.json()); // Permite recibir y enviar formato JSON
+app.use(express.static(__dirname));
 
 // 1. GET: Consultar todos los Pokémon
 app.get('/pokemons', async (req, res) => {
@@ -16,6 +20,7 @@ app.get('/pokemons', async (req, res) => {
 
 // 2. GET: Consultar un Pokémon por ID
 app.get('/pokemons/:id', async (req, res) => {
+  console.log("¡Alguien entró a /pokemons!");
   try {
     const { id } = req.params;
     const resultado = await pool.query('SELECT * FROM pokemons WHERE id = $1', [id]);
@@ -24,8 +29,9 @@ app.get('/pokemons/:id', async (req, res) => {
     }
     res.json(resultado.rows[0]);
   } catch (error) {
-    res.status(500).json({ error: 'Error al obtener el pokémon' });
-  }
+    console.error("Error detallado:", error); // <--- Agrega esto para ver qué pasa
+    res.status(500).json({ error: 'Error al obtener los pokemons' });
+}
 });
 
 // 3. POST: Crear un nuevo Pokémon

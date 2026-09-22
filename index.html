@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PokéAPI - Proyecto de Aula</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f0f2f5;
+            margin: 0;
+            padding: 20px;
+            color: #333;
+        }
+        h1 {
+            text-align: center;
+            color: #cc0000;
+            margin-bottom: 5px;
+        }
+        .subtitle {
+            text-align: center;
+            color: #666;
+            margin-bottom: 25px;
+        }
+        .search-container {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        input[type="text"] {
+            width: 50%;
+            max-width: 400px;
+            padding: 12px 20px;
+            font-size: 16px;
+            border: 2px solid #ccc;
+            border-radius: 25px;
+            outline: none;
+            transition: 0.3s;
+        }
+        input[type="text"]:focus {
+            border-color: #cc0000;
+            box-shadow: 0 0 8px rgba(204, 0, 0, 0.2);
+        }
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        .card {
+            background: white;
+            border-radius: 15px;
+            padding: 15px;
+            text-align: center;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 16px rgba(0,0,0,0.15);
+        }
+        .card img {
+            width: 120px;
+            height: 120px;
+            object-fit: contain;
+        }
+        .card h3 {
+            margin: 10px 0 5px 0;
+            text-transform: capitalize;
+            font-size: 18px;
+        }
+        .card p {
+            margin: 0;
+            color: #777;
+            font-size: 14px;
+        }
+        .stats {
+            margin-top: 10px;
+            font-size: 12px;
+            background: #f8f9fa;
+            padding: 5px;
+            border-radius: 8px;
+            text-align: left;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>PokéAPI - Primera Generación</h1>
+    <div class="subtitle">Proyecto de Aula Backend & Frontend</div>
+
+    <div class="search-container">
+        <input type="text" id="searchInput" placeholder="Buscar Pokémon por nombre..." onkeyup="filtrarPokemons()">
+    </div>
+
+    <div class="grid" id="pokemonGrid">
+        <!-- Aquí se cargarán dinámicamente las tarjetas -->
+    </div>
+
+    <script>
+        let listaPokemons = [];
+
+        async function cargarPokemons() {
+            try {
+                const response = await fetch('http://localhost:3000/pokemons');
+                listaPokemons = await response.json();
+                mostrarPokemons(listaPokemons);
+            } catch (error) {
+                console.error('Error al conectar con la API:', error);
+                document.getElementById('pokemonGrid').innerHTML = '<p style="text-align:center; color:red; grid-column:1/-1;">No se pudo conectar con el servidor local. Asegúrate de que `node index.js` esté corriendo.</p>';
+            }
+        }
+
+        function mostrarPokemons(pokemons) {
+            const grid = document.getElementById('pokemonGrid');
+            grid.innerHTML = '';
+
+            pokemons.forEach(poke => {
+                const card = document.createElement('div');
+                card.className = 'card';
+                card.innerHTML = `
+                    <span style="float:right; font-weight:bold; color:#aaa;">#${poke.id}</span>
+                    <img src="${poke.foto || 'https://via.placeholder.com/120'}" alt="${poke.nombre}">
+                    <h3>${poke.nombre}</h3>
+                    <div class="stats">
+                        ⚔️ Ataque: ${poke.ataque} | 🛡️ Defensa: ${poke.defensa}<br>
+                        ❤️ PS: ${poke.ps} | ⚡ Velocidad: ${poke.velocidad}
+                    </div>
+                `;
+                grid.appendChild(card);
+            });
+        }
+
+        function filtrarPokemons() {
+            const texto = document.getElementById('searchInput').value.toLowerCase();
+            const filtrados = listaPokemons.filter(p => p.nombre.toLowerCase().includes(texto));
+            mostrarPokemons(filtrados);
+        }
+
+        // Cargar al iniciar la página
+        cargarPokemons();
+    </script>
+</body>
+</html>
